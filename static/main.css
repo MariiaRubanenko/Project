@@ -1,0 +1,27 @@
+ .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1000;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Отображение меню при наведении на Account */
+        .nav-item:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 5px 10px;
+            text-decoration: none;
+            color: #000;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f0f0f0;
+        }

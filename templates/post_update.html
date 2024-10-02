@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Update article
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+  <h1>Update article</h1>
+
+  <form id="updateForm">
+    <input type="text" name="title" id="title" class="form-control" value="{{ article.title }}" placeholder="Title"> <br>
+    <textarea name="intro" id="intro" class="form-control" placeholder="Intro">{{ article.intro }}</textarea> <br>
+    <textarea name="text" id="text" class="form-control" placeholder="Text">{{ article.text }}</textarea> <br>
+    <button type="button" id="submitBtn" class="btn btn-success">Update</button> <!-- Кнопка с идентификатором -->
+  </form>
+</div>
+
+<script>
+document.getElementById('submitBtn').addEventListener('click', function(event) {
+    {#event.preventDefault();  // Предотвращаем стандартное поведение формы#}
+
+    const title = document.getElementById('title').value;
+    const intro = document.getElementById('intro').value;
+    const text = document.getElementById('text').value;
+
+    fetch('/posts/update/{{ article.id }}', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          // Добавьте CSRF токен, если требуется
+          {#'X-CSRFToken': '{{ csrf_token }}'  // Замените на правильный токен для вашего фреймворка#}
+        },
+        body: JSON.stringify({
+          title: title,
+          intro: intro,
+          text: text
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = '/posts';
+        } else {
+            alert('Error: ' + data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+
+{% endblock %}

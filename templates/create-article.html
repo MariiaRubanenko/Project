@@ -1,0 +1,68 @@
+{%extends 'base.html'%}
+
+{% block title %}
+Add article
+{%endblock%}
+
+{% block body %}
+
+<div class="container mt-5">
+{##}
+{#  <h1>Add article</h1>#}
+{##}
+{#  <form method="post">#}
+{#    <input type="text" name="title" id="title" class="form-control" placeholder="Title"> <br>#}
+{#    <textarea name="intro" id="intro" class="form-control" placeholder="Intro"></textarea> <br>#}
+{#    <textarea name="text" id="text" class="form-control" placeholder="Text"></textarea> <br>#}
+{#    <input type="submit" class="btn btn-success" value="Send">#}
+{##}
+{#  </form>#}
+
+<h1>Add article</h1>
+
+<form id="articleForm">
+  <input type="text" name="title" id="title" class="form-control" placeholder="Title"> <br>
+  <textarea name="intro" id="intro" class="form-control" placeholder="Intro"></textarea> <br>
+  <textarea name="text" id="text" class="form-control" placeholder="Text"></textarea> <br>
+  <button type="button" class="btn btn-success" id="submitBtn">Send</button>
+</form>
+</div>
+
+
+
+
+<script>
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    const title = document.getElementById('title').value;
+    const intro = document.getElementById('intro').value;
+    const text = document.getElementById('text').value;
+
+    fetch('/create-article', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        title: title,
+        intro: intro,
+        text: text
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        window.location.href = '/posts';  // Перенаправление на страницу с постами
+      } else {
+        alert('Error: ' + data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  });
+</script>
+
+{%endblock%}
+
+
+
